@@ -53,7 +53,7 @@ pub fn all_of<T: fmt::Display, M: Matcher<T>>(matchers: Vec<M>) -> AllOf<T, M> {
 
 #[macro_export]
 macro_rules! all_of {
-    ($($x:expr),+$(,)?) => {{
-        all_of(vec![$($x),+])
+    ($($matcher:expr),+$(,)?) => {{
+        all_of(vec![$($matcher),+])
     }}
 }
