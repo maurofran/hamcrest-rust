@@ -8,13 +8,13 @@ pub struct IsEqual<T: fmt::Display + PartialEq> {
     expected: T,
 }
 
-impl<T: fmt::Display + PartialEq> Matcher<T> for IsEqual<T> {
+impl<T: fmt::Display + PartialEq + SelfDescribing> Matcher<T> for IsEqual<T> {
     fn matches(&self, value: &T) -> bool {
         return value == &self.expected;
     }
 }
 
-impl<T: fmt::Display + PartialEq> SelfDescribing for IsEqual<T> {
+impl<T: fmt::Display + PartialEq + SelfDescribing> SelfDescribing for IsEqual<T> {
     fn describe_to<D>(&self, description: &mut D) where D: Description {
         description.append_description_of(&self.expected);
     }

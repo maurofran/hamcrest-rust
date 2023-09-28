@@ -32,6 +32,14 @@ pub trait Description: Sized {
     /// * `text` - The text to append.
     fn append_text(&mut self, text: &str) -> &mut Self;
 
+    /// Appends a string value to the description.
+    ///
+    /// # Arguments
+    /// * `value` - The string value to append.
+    fn append_string_value(&mut self, value: &str) -> &mut Self {
+        self.append_text("\"").append_text(value).append_text("\"")
+    }
+
     /// Appends the description of a [SelfDescribing] value to this description.
     ///
     /// # Arguments
