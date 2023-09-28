@@ -1,10 +1,10 @@
-mod core;
+use std::fmt;
 
 pub use core::*;
 
-use std::fmt;
-
 use crate::description::{Description, SelfDescribing};
+
+mod core;
 
 /// A matcher over acceptable values.
 /// A matcher is able to describe itself to give feedback when it fails.
@@ -26,6 +26,10 @@ pub trait Matcher<T: fmt::Display + Sized>: SelfDescribing {
     fn describe_mismatch<D>(&self, value: &T, description: &mut D) where D: Description {
         description.append_text("was ").append_description_of(value);
     }
+}
+
+pub trait DiagnosingMatcher<T: fmt::Display + Sized> {
+    fn matches_describing<D>(&self, value: &T, description: &mut D) -> bool where D: Description;
 }
 
 /// Utility class for writing one off matchers.
@@ -65,6 +69,7 @@ impl<'a, T: fmt::Display> SelfDescribing for CustomMatcher<'a, T> {
 #[cfg(test)]
 pub mod tests {
     use crate::prelude::StringDescription;
+
     use super::*;
 
     #[test]
