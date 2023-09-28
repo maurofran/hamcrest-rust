@@ -1,15 +1,14 @@
-use std::fmt;
 use std::marker::PhantomData;
-use crate::description::{Description, SelfDescribing};
 
+use crate::description::{Description, SelfDescribing};
 use crate::matcher::Matcher;
 
-pub struct AnyOf<T: fmt::Display, M: Matcher<T>> {
+pub struct AnyOf<T: SelfDescribing, M: Matcher<T>> {
     matchers: Vec<M>,
     marker: PhantomData<T>,
 }
 
-impl<T: fmt::Display, M: Matcher<T>> Matcher<T> for AnyOf<T, M> {
+impl<T: SelfDescribing, M: Matcher<T>> Matcher<T> for AnyOf<T, M> {
     fn matches(&self, value: &T) -> bool {
         for matcher in &self.matchers {
             if matcher.matches(value) {
@@ -20,7 +19,7 @@ impl<T: fmt::Display, M: Matcher<T>> Matcher<T> for AnyOf<T, M> {
     }
 }
 
-impl<T: fmt::Display, M: Matcher<T>> SelfDescribing for AnyOf<T, M> {
+impl<T: SelfDescribing, M: Matcher<T>> SelfDescribing for AnyOf<T, M> {
     fn describe_to<D>(&self, description: &mut D) where D: Description {
         description.append_text("(");
         for (i, matcher) in self.matchers.iter().enumerate() {
@@ -33,7 +32,7 @@ impl<T: fmt::Display, M: Matcher<T>> SelfDescribing for AnyOf<T, M> {
     }
 }
 
-pub fn any_of<T: fmt::Display, M: Matcher<T>>(matchers: Vec<M>) -> AnyOf<T, M> {
+pub fn any_of<T: SelfDescribing, M: Matcher<T>>(matchers: Vec<M>) -> AnyOf<T, M> {
     AnyOf { matchers, marker: PhantomData }
 }
 

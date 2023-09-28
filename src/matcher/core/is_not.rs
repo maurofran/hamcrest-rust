@@ -1,27 +1,26 @@
-use std::fmt;
 use std::marker::PhantomData;
 
 use crate::description::{Description, SelfDescribing};
 use crate::matcher::Matcher;
 
-pub struct IsNotMatcher<T: fmt::Display, M: Matcher<T>> {
+pub struct IsNotMatcher<T: SelfDescribing, M: Matcher<T>> {
     matcher: M,
     marker: PhantomData<T>,
 }
 
-impl<T: fmt::Display, M: Matcher<T>> Matcher<T> for IsNotMatcher<T, M> {
+impl<T: SelfDescribing, M: Matcher<T>> Matcher<T> for IsNotMatcher<T, M> {
     fn matches(&self, value: &T) -> bool {
         !self.matcher.matches(value)
     }
 }
 
-impl<T: fmt::Display, M: Matcher<T>> SelfDescribing for IsNotMatcher<T, M> {
+impl<T: SelfDescribing, M: Matcher<T>> SelfDescribing for IsNotMatcher<T, M> {
     fn describe_to<D>(&self, description: &mut D) where D: Description {
         description.append_text("not ").append_description_of(&self.matcher);
     }
 }
 
-pub fn not<T: fmt::Display, M: Matcher<T>>(matcher: M) -> IsNotMatcher<T, M> {
+pub fn not<T: SelfDescribing, M: Matcher<T>>(matcher: M) -> IsNotMatcher<T, M> {
     IsNotMatcher { matcher, marker: PhantomData }
 }
 
@@ -30,6 +29,7 @@ pub fn not<T: fmt::Display, M: Matcher<T>>(matcher: M) -> IsNotMatcher<T, M> {
 pub mod tests {
     use crate::matcher::CustomMatcher;
     use crate::prelude::StringDescription;
+
     pub use super::*;
 
     fn make_matcher<M>() -> CustomMatcher<'static, String> {

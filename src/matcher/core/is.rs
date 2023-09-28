@@ -1,16 +1,15 @@
-use std::fmt;
 use std::marker::PhantomData;
 
 use crate::description::Description;
 use crate::matcher::Matcher;
 use crate::prelude::SelfDescribing;
 
-pub struct IsMatcher<T: fmt::Display, M: Matcher<T>> {
+pub struct IsMatcher<T: SelfDescribing, M: Matcher<T>> {
     matcher: M,
-    marker: PhantomData<T>
+    marker: PhantomData<T>,
 }
 
-impl<T: fmt::Display, M: Matcher<T>> Matcher<T> for IsMatcher<T, M> {
+impl<T: SelfDescribing, M: Matcher<T>> Matcher<T> for IsMatcher<T, M> {
     fn matches(&self, value: &T) -> bool {
         self.matcher.matches(value)
     }
@@ -20,14 +19,14 @@ impl<T: fmt::Display, M: Matcher<T>> Matcher<T> for IsMatcher<T, M> {
     }
 }
 
-impl<T: fmt::Display, M: Matcher<T>> SelfDescribing for IsMatcher<T, M> {
+impl<T: SelfDescribing, M: Matcher<T>> SelfDescribing for IsMatcher<T, M> {
     fn describe_to<D>(&self, description: &mut D) where D: Description {
         description.append_text("is ").append_description_of(&self.matcher);
     }
 }
 
 /// Factory function for creating an [IsMatcher].
-pub fn is<T: fmt::Display, M: Matcher<T>>(matcher: M) -> IsMatcher<T, M> {
+pub fn is<T: SelfDescribing, M: Matcher<T>>(matcher: M) -> IsMatcher<T, M> {
     IsMatcher { matcher, marker: PhantomData }
 }
 
@@ -35,6 +34,7 @@ pub fn is<T: fmt::Display, M: Matcher<T>>(matcher: M) -> IsMatcher<T, M> {
 pub mod tests {
     use crate::matcher::CustomMatcher;
     use crate::prelude::StringDescription;
+
     pub use super::*;
 
     fn make_matcher<M>() -> CustomMatcher<'static, String> {

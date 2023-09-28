@@ -39,7 +39,7 @@ impl<'a> SelfDescribing for SubstringMatcher<'a> {
         description.append_text("a string ")
             .append_text(self.relationship)
             .append_text(" ")
-            .append_string_value(self.substring);
+            .append_description_of(&self.substring.to_string());
         if self.ignoring_case {
             description.append_text(" ignoring case");
         }

@@ -14,7 +14,7 @@ pub fn test_contains_string_ignoring_case_success() {
 }
 
 #[test]
-#[should_panic(expected = "Expected: a string containing \"123\"\n     but: was foobarbaz")]
+#[should_panic(expected = "Expected: a string containing \"123\"\n     but: was \"foobarbaz\"")]
 pub fn test_contains_string_failure() {
     let fixture = "foobarbaz".to_string();
     assert_that!(fixture, contains_string("123"));
@@ -33,7 +33,7 @@ pub fn test_starts_with_ignoring_case_success() {
 }
 
 #[test]
-#[should_panic(expected = "Expected: a string starting with \"123\"\n     but: was foobarbaz")]
+#[should_panic(expected = "Expected: a string starting with \"123\"\n     but: was \"foobarbaz\"")]
 pub fn test_starts_with_failure() {
     let fixture = "foobarbaz".to_string();
     assert_that!(fixture, starts_with("123"));
@@ -53,7 +53,7 @@ pub fn test_ends_with_ignoring_case_success() {
 }
 
 #[test]
-#[should_panic(expected = "Expected: a string ending with \"123\"\n     but: was foobarbaz")]
+#[should_panic(expected = "Expected: a string ending with \"123\"\n     but: was \"foobarbaz\"")]
 pub fn test_ends_with_failure() {
     let fixture = "foobarbaz".to_string();
     assert_that!(fixture, ends_with("123"));

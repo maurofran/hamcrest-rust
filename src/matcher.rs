@@ -1,5 +1,3 @@
-use std::fmt;
-
 pub use core::*;
 
 use crate::description::{Description, SelfDescribing};
@@ -8,7 +6,7 @@ mod core;
 
 /// A matcher over acceptable values.
 /// A matcher is able to describe itself to give feedback when it fails.
-pub trait Matcher<T: fmt::Display + Sized>: SelfDescribing {
+pub trait Matcher<T: SelfDescribing + Sized>: SelfDescribing {
     /// Evaluates the matcher for argument `value`.
     ///
     /// # Arguments
@@ -28,18 +26,18 @@ pub trait Matcher<T: fmt::Display + Sized>: SelfDescribing {
     }
 }
 
-pub trait DiagnosingMatcher<T: fmt::Display + Sized> {
+pub trait DiagnosingMatcher<T: SelfDescribing + Sized> {
     fn matches_describing<D>(&self, value: &T, description: &mut D) -> bool where D: Description;
 }
 
 /// Utility class for writing one off matchers.
 ///
-pub struct CustomMatcher<'a, T: fmt::Display> {
+pub struct CustomMatcher<'a, T: SelfDescribing> {
     matcher: fn(&T) -> bool,
     description: &'a str,
 }
 
-impl<'a, T: fmt::Display> CustomMatcher<'a, T> {
+impl<'a, T: SelfDescribing> CustomMatcher<'a, T> {
     /// Creates a new matcher with the given matcher function and description.
     pub fn new(matcher: fn(&T) -> bool, description: &'a str) -> Self {
         CustomMatcher {
@@ -49,7 +47,7 @@ impl<'a, T: fmt::Display> CustomMatcher<'a, T> {
     }
 }
 
-impl<'a, T: fmt::Display> Matcher<T> for CustomMatcher<'a, T> {
+impl<'a, T: SelfDescribing> Matcher<T> for CustomMatcher<'a, T> {
     fn matches(&self, value: &T) -> bool {
         (self.matcher)(value)
     }
@@ -59,7 +57,7 @@ impl<'a, T: fmt::Display> Matcher<T> for CustomMatcher<'a, T> {
     }
 }
 
-impl<'a, T: fmt::Display> SelfDescribing for CustomMatcher<'a, T> {
+impl<'a, T: SelfDescribing> SelfDescribing for CustomMatcher<'a, T> {
     fn describe_to<D>(&self, description: &mut D) where D: Description {
         description.append_text(self.description);
         return;

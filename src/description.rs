@@ -17,9 +17,46 @@ impl<T: SelfDescribing> SelfDescribing for [T] {
     }
 }
 
-impl<T: fmt::Display> SelfDescribing for T {
+macro_rules! impl_self_describing {
+    ($t:ty) => {
+        impl SelfDescribing for $t {
+            fn describe_to<D>(&self, description: &mut D) where D: Description {
+                description.append_text(self.to_string().as_str());
+            }
+        }
+    }
+}
+impl_self_describing!(bool);
+impl_self_describing!(u8);
+impl_self_describing!(u16);
+impl_self_describing!(u32);
+impl_self_describing!(u64);
+impl_self_describing!(u128);
+impl_self_describing!(usize);
+impl_self_describing!(i8);
+impl_self_describing!(i16);
+impl_self_describing!(i32);
+impl_self_describing!(i64);
+impl_self_describing!(i128);
+impl_self_describing!(isize);
+impl_self_describing!(f32);
+impl_self_describing!(f64);
+
+impl SelfDescribing for char {
     fn describe_to<D>(&self, description: &mut D) where D: Description {
-        description.append_text(self.to_string().as_str());
+        description.append_text("'").append_text(self.to_string().as_str()).append_text("'");
+    }
+}
+
+impl SelfDescribing for &str {
+    fn describe_to<D>(&self, description: &mut D) where D: Description {
+        description.append_text("\"").append_text(self).append_text("\"");
+    }
+}
+
+impl SelfDescribing for String {
+    fn describe_to<D>(&self, description: &mut D) where D: Description {
+        description.append_text("\"").append_text(self).append_text("\"");
     }
 }
 
@@ -31,14 +68,6 @@ pub trait Description: Sized {
     /// # Arguments
     /// * `text` - The text to append.
     fn append_text(&mut self, text: &str) -> &mut Self;
-
-    /// Appends a string value to the description.
-    ///
-    /// # Arguments
-    /// * `value` - The string value to append.
-    fn append_string_value(&mut self, value: &str) -> &mut Self {
-        self.append_text("\"").append_text(value).append_text("\"")
-    }
 
     /// Appends the description of a [SelfDescribing] value to this description.
     ///
