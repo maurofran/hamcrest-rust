@@ -1,8 +1,10 @@
 pub use core::*;
+pub use ord::*;
 
 use crate::description::{Description, SelfDescribing};
 
 mod core;
+mod ord;
 
 /// A matcher over acceptable values.
 /// A matcher is able to describe itself to give feedback when it fails.
