@@ -1,4 +1,5 @@
 use std::fmt;
+use regex::Regex;
 
 pub trait SelfDescribing {
     fn describe_to<D>(&self, description: &mut D) where D: Description;
@@ -27,6 +28,13 @@ impl<T: SelfDescribing> SelfDescribing for Vec<T> {
             item.describe_to(description);
         }
         description.append_text("]");
+    }
+}
+
+#[cfg(feature = "regex")]
+impl SelfDescribing for Regex {
+    fn describe_to<D>(&self, description: &mut D) where D: Description {
+        description.append_text(format!("/{}/", self.as_str()).as_str());
     }
 }
 

@@ -8,4 +8,10 @@ authors = [
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
+[dependencies.regex]
+version = "1.9.5"
+optional = true
+
+[features]
+regex = ["dep:regex"]
+all = ["regex"]
