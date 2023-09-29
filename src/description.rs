@@ -17,6 +17,19 @@ impl<T: SelfDescribing> SelfDescribing for [T] {
     }
 }
 
+impl<T: SelfDescribing> SelfDescribing for Vec<T> {
+    fn describe_to<D>(&self, description: &mut D) where D: Description {
+        description.append_text("[");
+        for (i, item) in self.iter().enumerate() {
+            if i > 0 {
+                description.append_text(", ");
+            }
+            item.describe_to(description);
+        }
+        description.append_text("]");
+    }
+}
+
 macro_rules! impl_self_describing {
     ($t:ty) => {
         impl SelfDescribing for $t {
