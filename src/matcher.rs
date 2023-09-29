@@ -9,7 +9,8 @@ pub use core::is_not::not;
 pub use core::matches::{matches_pattern, matches_regexp};
 pub use core::substring::{contains_string, ends_with, starts_with};
 pub use ord::{compares_equals_to, greater_than, greater_than_or_equal_to, less_than, less_than_or_equal_to};
-pub use text::{has_exact_length, has_length};
+pub use text::blank::blank;
+pub use text::length::{has_exact_length, has_length};
 
 use crate::description::{Description, SelfDescribing};
 

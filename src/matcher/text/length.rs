@@ -35,7 +35,7 @@ impl<M> SelfDescribing for StringLengthMatcher<M> where M: Matcher<usize> {
     }
 }
 
-pub fn has_length<M>(length_matcher: M) -> StringLengthMatcher<M> where M: Matcher<usize> {
+pub fn has_length<M>(length_matcher: M) ->  StringLengthMatcher<M> where M: Matcher<usize> {
     StringLengthMatcher { length_matcher }
 }
 
