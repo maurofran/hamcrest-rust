@@ -1,4 +1,13 @@
-pub use core::{all_of, any_of, contains_string, ends_with, equal_to, every_item, has_item, is, matches_pattern, matches_regexp, not, starts_with};
+pub use core::all_of::all_of;
+pub use core::any_of::any_of;
+pub use core::described_as::described_as;
+pub use core::every::every_item;
+pub use core::has_items::has_item;
+pub use core::is::is;
+pub use core::is_equal::equal_to;
+pub use core::is_not::not;
+pub use core::matches::{matches_pattern, matches_regexp};
+pub use core::substring::{contains_string, ends_with, starts_with};
 pub use ord::{compares_equals_to, greater_than, greater_than_or_equal_to, less_than, less_than_or_equal_to};
 pub use text::{has_exact_length, has_length};
 

@@ -1,6 +1,6 @@
 use crate::description::{Description, NoDescription, SelfDescribing};
 use crate::matcher::{DiagnosingMatcher, Matcher};
-use crate::matcher::core::{equal_to, IsEqual};
+use crate::matcher::core::is_equal::{equal_to, IsEqual};
 
 pub struct StringLengthMatcher<M> where M: Matcher<usize> {
     length_matcher: M,
