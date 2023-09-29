@@ -1,10 +1,12 @@
-pub use core::*;
-pub use ord::*;
+pub use core::{all_of, any_of, contains_string, ends_with, equal_to, every_item, has_item, is, matches_pattern, matches_regexp, not, starts_with};
+pub use ord::{compares_equals_to, greater_than, greater_than_or_equal_to, less_than, less_than_or_equal_to};
+pub use text::{has_exact_length, has_length};
 
 use crate::description::{Description, SelfDescribing};
 
 mod core;
 mod ord;
+mod text;
 
 /// A matcher over acceptable values.
 /// A matcher is able to describe itself to give feedback when it fails.

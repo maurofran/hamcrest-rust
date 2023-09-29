@@ -1,13 +1,13 @@
-pub use all_of::all_of;
-pub use any_of::any_of;
-pub use every::every_item;
-pub use has_items::has_item;
-pub use is::is;
-pub use is_equal::equal_to;
-pub use is_not::not;
+pub use all_of::*;
+pub use any_of::*;
+pub use every::*;
+pub use has_items::*;
+pub use is::*;
+pub use is_equal::*;
+pub use is_not::*;
 #[cfg(feature = "regex")]
-pub use matches::{matches_regexp, matches_pattern};
-pub use substring::{contains_string, ends_with, starts_with};
+pub use matches::*;
+pub use substring::*;
 
 mod all_of;
 mod any_of;
